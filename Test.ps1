@@ -1,22 +1,21 @@
 [CmdletBinding()]
-Param(
-  [switch]$IncludePrivate
-)
+Param()
 $ErrorActionPreference = "Stop"
 
 $moduleName = "Unattended.SIF"
 $modulePath = Convert-Path $PSScriptRoot\src\$moduleName
-Write-Verbose "Loading ${moduleName} from ${modulePath}"
 
 Remove-Module $moduleName -Force -ErrorAction SilentlyContinue
 Import-Module $modulePath -Scope Local
 
-If ($IncludePrivate) {
-  Get-ChildItem $modulePath\Private\*.ps1 -Exclude "*.Tests.ps1" -ErrorAction SilentlyContinue | ForEach-Object {
-    $script = $_.FullName
-    Write-Verbose "Loading ${script}"
-    . $script
+If (Test-Path env:APPVEYOR) {
+  $testResults = Invoke-Pester .\test -OutputFile .\TestResults.xml -OutputFormat NUnitXml -PassThru
+  (New-Object "System.Net.WebClient").UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResults.xml))
+  If ($testResults.FailedCount -gt 0) {
+    Write-Error "$($testResults.FailedCount) tests failed."
   }
+} Else {
+  Invoke-Pester .\test
 }
 
-Invoke-Pester .\test
+Write-Host "Test complete."

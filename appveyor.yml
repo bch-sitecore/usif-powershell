@@ -1,23 +1,26 @@
-version: 0.1.{build}
+version: 0.2.{build}
 image: Visual Studio 2017
 
 branches:
   except:
     - gh-pages
 
+environment:
+  RepositoryName: BCHGallery
+  RepositoryUrl:
+    secure: K0PjtWmPZFi+OUNMJCy7E3flpk6Vy/Wm/9UBRDmocEl0auYvAjd/HVjKIb/UkYmQBNQupFWXNaFST3Nhez2kaA==
+  RepositoryApiKey:
+    secure: cT+Kpb3jguYeMikGDpbfLKe1FKzY+/MUYRE7TS0c5f4=
+
 install:
-  - ps: |
-      $osVersion = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").BuildLabEx
-      $psVersion = $PSVersionTable.PSVersion
-      Write-Host "Server version ${osVersion}"
-      Write-Host "PowerShell version ${psVersion}"
-      docker version
-  - ps: |
-      Install-PackageProvider -Name "NuGet" -Force
-      Install-Module "Pester", "PSScriptAnalyzer" -SkipPublisherCheck -Force
+  - ps: .\Install.ps1
+  - ps: Register-PSRepository $env:RepositoryName -SourceLocation $env:RepositoryUrl -PublishLocation $env:RepositoryUrl
 
 build_script:
   - ps: .\Build.ps1
 
 test_script:
   - ps: .\Test.ps1
+
+deploy_script:
+  - ps: .\Deploy.ps1 -ApiKey $env:RepositoryApiKey -Repository $env:RepositoryName
