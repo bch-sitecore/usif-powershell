@@ -1,0 +1,14 @@
+version: 0.1.{build}
+image: Visual Studio 2017
+
+install:
+  - ps: |
+      $version = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").BuildLabEx
+      Write-Host "Server version ${version}"
+      docker version
+
+build_script:
+  - ps: .\Build.ps1
+
+test_script:
+  - ps: .\Test.ps1
