@@ -1,11 +1,20 @@
 version: 0.1.{build}
 image: Visual Studio 2017
 
+branches:
+  except:
+    - gh-pages
+
 install:
   - ps: |
-      $version = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").BuildLabEx
-      Write-Host "Server version ${version}"
+      $osVersion = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").BuildLabEx
+      $psVersion = $PSVersionTable.PSVersion
+      Write-Host "Server version ${osVersion}"
+      Write-Host "PowerShell version ${psVersion}"
       docker version
+  - ps: |
+      Install-PackageProvider -Name "NuGet" -Force
+      Install-Module "Pester", "PSScriptAnalyzer" -SkipPublisherCheck -Force
 
 build_script:
   - ps: .\Build.ps1
