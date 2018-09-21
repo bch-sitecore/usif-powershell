@@ -1,9 +1,9 @@
 [CmdletBinding()]
 Param(
-  [Parameter(Position = 0, Mandatory = $true)]
+  [Parameter(Mandatory = $true)]
   [string]$ApiKey
   ,
-  [Parameter(Position = 0)]
+  [Parameter()]
   [string]$Repository = "PSGallery"
 )
 $ErrorActionPreference = "Stop"
