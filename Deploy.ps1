@@ -11,6 +11,6 @@ $ErrorActionPreference = "Stop"
 $moduleName = "Unattended.SIF"
 $modulePath = Convert-Path $PSScriptRoot\src\$moduleName
 
-Publish-Module -Path $modulePath -NuGetApiKey $ApiKey -Repository $PublishRepository
+Publish-Module -Path $modulePath -NuGetApiKey $ApiKey -Repository $Repository
 
 Write-Host "Deploy complete."
