@@ -11,7 +11,7 @@ $modulePath = Convert-Path $PSScriptRoot\src\$moduleName
 $moduleManifest = Convert-Path $PSScriptRoot\src\$moduleName\$moduleName.psd1
 
 $manifest = Test-ModuleManifest $ModuleManifest
-If ($ModuleVersion) {
+If (!$ModuleVersion) {
   $version = $manifest.Version
   $moduleVersion = New-Object System.Version $version.Major, $version.Minor, ($version.Build + 1)
 }
