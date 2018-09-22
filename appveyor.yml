@@ -17,7 +17,7 @@ install:
   - ps: Register-PSRepository $env:RepositoryName -SourceLocation $env:RepositoryUrl -PublishLocation $env:RepositoryUrl
 
 build_script:
-  - ps: .\Build.ps1
+  - ps: .\Build.ps1 -BuildVersion $env:APPVEYOR_BUILD_VERSION
 
 test_script:
   - ps: .\Test.ps1

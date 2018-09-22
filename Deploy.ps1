@@ -1,6 +1,6 @@
 [CmdletBinding()]
 Param(
-  [Parameter(Mandatory = $true)]
+  [Parameter(Position = 0, Mandatory = $true)]
   [string]$ApiKey
   ,
   [Parameter()]
