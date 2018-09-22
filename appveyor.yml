@@ -8,7 +8,7 @@ branches:
 environment:
   RepositoryName: BCHGallery
   RepositoryUrl:
-    secure: K0PjtWmPZFi+OUNMJCy7E3flpk6Vy/Wm/9UBRDmocEl0auYvAjd/HVjKIb/UkYmQBNQupFWXNaFST3Nhez2kaA==
+    secure: VMUmmeqFeGKU3cgQY6BWJxttrgYE+ulY/N/UrzT54Iz/91LROC/nd4bGCF5cRwmA
   RepositoryApiKey:
     secure: cT+Kpb3jguYeMikGDpbfLKe1FKzY+/MUYRE7TS0c5f4=
 
