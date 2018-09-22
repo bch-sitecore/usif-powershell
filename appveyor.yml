@@ -14,10 +14,12 @@ environment:
 
 install:
   - ps: .\Install.ps1
-  - ps: Register-PSRepository $env:RepositoryName -SourceLocation $env:RepositoryUrl -PublishLocation $env:RepositoryUrl
+  - ps: |
+      Register-PSRepository $env:RepositoryName -SourceLocation $env:RepositoryUrl -PublishLocation $env:RepositoryUrl
+      Get-PSRepository
 
 build_script:
-  - ps: .\Build.ps1 -BuildVersion $env:APPVEYOR_BUILD_VERSION
+  - ps: .\Build.ps1 -Version $env:APPVEYOR_BUILD_VERSION
 
 test_script:
   - ps: .\Test.ps1
