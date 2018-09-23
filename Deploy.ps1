@@ -5,12 +5,15 @@ Param(
   ,
   [Parameter()]
   [string]$Repository = "PSGallery"
+  ,
+  [Parameter()]
+  [switch]$Force
 )
 $ErrorActionPreference = "Stop"
 
 $moduleName = "Unattended.SIF"
 $modulePath = Convert-Path $PSScriptRoot\src\$moduleName
 
-Publish-Module -Path $modulePath -NuGetApiKey $ApiKey -Repository $Repository
+Publish-Module -Path $modulePath -NuGetApiKey $ApiKey -Repository $Repository -Force:$Force
 
 Write-Host "Deploy complete."
