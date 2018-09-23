@@ -6,16 +6,17 @@ branches:
     - gh-pages
 
 environment:
-  RepositoryName: BCHGallery
-  RepositoryUrl:
+  PSRepositoryName:
+    secure: rNmqtztDt57vkUO+OAPCmg==
+  PSRepositoryLocation:
     secure: VMUmmeqFeGKU3cgQY6BWJxttrgYE+ulY/N/UrzT54Iz/91LROC/nd4bGCF5cRwmA
-  RepositoryApiKey:
+  PSRepositoryApiKey:
     secure: cT+Kpb3jguYeMikGDpbfLKe1FKzY+/MUYRE7TS0c5f4=
 
 install:
   - ps: .\Install.ps1
   - ps: |
-      Register-PSRepository $env:RepositoryName -SourceLocation $env:RepositoryUrl -PublishLocation $env:RepositoryUrl
+      Register-PSRepository $env:PSRepositoryName -SourceLocation $env:PSRepositoryLocation -PublishLocation $env:PSRepositoryLocation -InstallationPolicy Trusted
       Get-PSRepository
 
 build_script:
@@ -25,4 +26,4 @@ test_script:
   - ps: .\Test.ps1
 
 deploy_script:
-  - ps: .\Deploy.ps1 -ApiKey $env:RepositoryApiKey -Repository $env:RepositoryName
+  - ps: .\Deploy.ps1 -ApiKey $env:PSRepositoryApiKey -Repository $env:PSRepositoryName
