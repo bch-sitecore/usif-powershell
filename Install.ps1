@@ -1,8 +1,5 @@
 [CmdletBinding()]
-Param(
-  [Parameter()]
-  [string]$PublishRepository = "http://bchnuget.azurewebsites.net/nuget"
-)
+Param()
 $ErrorActionPreference = "Stop"
 
 $osVersion = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").BuildLabEx
@@ -11,12 +8,7 @@ Write-Host "Server version ${osVersion}"
 $psVersion = $PSVersionTable.PSVersion
 Write-Host "PowerShell version ${psVersion}"
 
-If ($null -ne (Get-Command "docker" -ErrorAction SilentlyContinue)) {
-  docker version
-}
-
 Install-PackageProvider -Name "NuGet" -Force
-
 @(
   @{ Name = "Pester";           MinimumVersion = [version]"4.4" }
   @{ Name = "PSScriptAnalyzer"; MinimumVersion = [version]"1.17" }
