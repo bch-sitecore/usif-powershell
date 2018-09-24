@@ -14,8 +14,10 @@ Function Install-IIS {
     If (!$isInstalled) {
       If ($PSCmdlet.ShouldProcess("Install IIS")) {
         If ($isServer) {
+          Write-Verbose "Installing IIS using Install-WindowsFeature"
           Install-WindowsFeature Web-Server -IncludeAllSubFeature -IncludeManagementTools
         } Else {
+          Write-Verbose "Installing IIS using Enable-WindowsOptionalFeature"
           @(
             "IIS-WebServerRole",          "IIS-WebServer",              "IIS-WebServerManagementTools",
             "IIS-ApplicationDevelopment", "IIS-ASPNET45",               "IIS-CommonHttpFeatures",
@@ -29,6 +31,8 @@ Function Install-IIS {
           }
         }
       }
+    } Else {
+      Write-Verbose "IIS already installed."
     }
     InstallRewriteModule
     InstallWebDeployModule

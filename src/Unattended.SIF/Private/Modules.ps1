@@ -11,7 +11,10 @@ Function InstallRewriteModule {
   }
   Process {
     If (!$isInstalled) {
+      Write-Verbose "Installing URL Rewrite Module"
       InstallMsi $url -OutFile $outFile
+    } Else {
+      Write-Verbose "URL Rewrite Module already installed"
     }
   }
 }
@@ -28,7 +31,10 @@ Function InstallWebDeployModule {
   }
   Process {
     If (!$isInstalled) {
+      Write-Verbose "Installing Web Deploy Module"
       InstallMsi $url -OutFile $outFile
+    } Else {
+      Write-Verbose "Web Deploy Module already installed"
     }
   }
 }

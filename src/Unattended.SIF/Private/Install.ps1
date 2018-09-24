@@ -15,15 +15,18 @@ Function InstallMsi {
   )
   Process {
     If (!(Test-Path $OutFile) -and $PSCmdlet.ShouldProcess($OutFile, "Download")) {
+      Write-Verbose "Downloading $($OutFile)"
       Invoke-WebRequest $Url -OutFile $OutFile -UseBasicParsing
     }
     If ($PSCmdlet.ShouldProcess($OutFile, "Install")) {
+      Write-Verbose "Installing $($OutFile) ($($ArgumentList -join ' '))"
       $result = Start-Process "msiexec.exe" -ArgumentList (@("/i", $OutFile) + $ArgumentList) -Wait -PassThru
       If ($result.ExitCode -ne 0) {
         Write-Error "Non-zero exit code: $($result.ExitCode)"
       }
     }
     If ($PSCmdlet.ShouldProcess($OutFile, "Remove")) {
+      Write-Verbose "Removing $($OutFile)"
       Remove-Item $OutFile
     }
   }
