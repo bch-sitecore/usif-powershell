@@ -28,11 +28,11 @@ Function GetCert {
     [Parameter(ParameterSetName = "ByDnsName", Position = 1)]
     [Parameter(ParameterSetName = "ByFriendlyName", Position = 1)]
     [Parameter(ParameterSetName = "ByThumbprint", Position = 1)]
-    [ValidateScript({ $_.StartsWith("cert:\", "CurrentCultureIgnoreCase") })]
+    [ValidateDrive("Cert")] #[ValidateScript({ $_.StartsWith("cert:\", "CurrentCultureIgnoreCase") })]
     [Alias("In")]
     [string]$CertStoreLocation = "Cert:\LocalMachine\My"
   )
-  Process {
+  Begin {
     Switch ($PSCmdlet.ParameterSetName) {
       ByDnsName {
         $criteria = "DnsName=$($ByDnsName)"
@@ -47,7 +47,8 @@ Function GetCert {
         $filter = { $ByThumbprint -eq $_.Thumbprint }
       }
     }
-
+  }
+  Process {
     Write-Verbose "Searching for certificate in $($CertStoreLocation) with $($criteria)"
     $matches = Get-ChildItem $CertStoreLocation -Recurse | Where-Object $filter
 
