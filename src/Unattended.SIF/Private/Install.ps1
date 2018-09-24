@@ -14,10 +14,8 @@ Function InstallMsi {
     [string[]]$ArgumentList = @("/quiet", "/norestart")
   )
   Process {
-    If ($PSCmdlet.ShouldProcess($OutFile, "Download")) {
-      If (!(Test-Path $OutFile)) {
-        Invoke-WebRequest $Url -OutFile $OutFile -UseBasicParsing
-      }
+    If (!(Test-Path $OutFile) -and $PSCmdlet.ShouldProcess($OutFile, "Download")) {
+      Invoke-WebRequest $Url -OutFile $OutFile -UseBasicParsing
     }
     If ($PSCmdlet.ShouldProcess($OutFile, "Install")) {
       $result = Start-Process "msiexec.exe" -ArgumentList (@("/i", $OutFile) + $ArgumentList) -Wait -PassThru
