@@ -7,6 +7,8 @@
     Return the password as a secure string.
 #>
 Function NewRandomPassword {
+  [CmdletBinding()]
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "")]
   Param(
     [Parameter(Position = 0)]
     [ValidateRange(1, 255)]
