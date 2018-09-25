@@ -47,12 +47,15 @@ Function Install-JavaSE8 {
         $jreVersion = Get-ChildItem "HKLM:\SOFTWARE\JavaSoft\Java Runtime Environment" | Select-Object -ExpandProperty pschildname -Last 1
         Write-Verbose "JRE $($jreVersion)"
       }
-      If (!(Test-path env:JAVA_HOME) -and $PSCmdlet.ShouldProcess("JAVA_HOME", "Set")) {
+      If (!(Test-path env:JAVA_HOME) -and $PSCmdlet.ShouldProcess("`$env:JAVA_HOME", "Set")) {
         $env:JAVA_HOME = Convert-Path (Join-Path $env:ProgramFiles -ChildPath "Java\jre*")
+        Write-Verbose "Setting '$($env:JAVA_HOME)' as `$env:JAVA_HOME"
         [System.Environment]::SetEnvironmentVariable("JAVA_HOME", $env:JAVA_HOME, [System.EnvironmentVariableTarget]::Machine)
       }
-      If ($PSCmdlet.ShouldProcess("PATH", "Update")) {
-        AddPath (Join-Path $env:JAVA_HOME -ChildPath "bin")
+      If ($PSCmdlet.ShouldProcess("`$env:PATH", "Update")) {
+        $javaBin = Join-Path $env:JAVA_HOME -ChildPath "bin"
+        Write-Verbose "Adding '$($javaBin)' to `$env:PATH"
+        AddPath $javaBin
       }
     } Else {
       Write-Verbose "Java SE 8 already installed"
